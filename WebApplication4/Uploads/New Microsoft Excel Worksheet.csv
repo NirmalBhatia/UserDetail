@@ -1,0 +1,4 @@
+UserId,FirstName,LastName,Email,PhoneNo,Address,Status,Role,Password
+UW1001,Nirmal,Bhatia,Test@gmail.com,89797975,"Sec 7, Gurgaon, haryana",A,Admin,Test@123
+UW1002,Priyansh,Bhatia,Test@gmail.com,89797976,"Sec 7, Gurgaon, haryana",A,Supervisor,Test@124
+UW1003,Bhanvi,Bhatia,Test@gmail.com,89797977,"Sec 7, Gurgaon, haryana",A,Agent,Test@125

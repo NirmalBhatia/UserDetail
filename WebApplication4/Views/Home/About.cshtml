@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Role = "";
+    if (TempData["Role"] != null)
+    {
+        Role = TempData.Peek("Role").ToString();
+        TempData["Role"] = Role;
+    }
+}
+@model WebApplication4.Models.Detaillist
+@*<link href="~/assets/js/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />*@
+<script src="~/assets/js/bootstrap.min.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+
+<script src="~/assets/js/jquery.validate.min.js"></script>
+
+<link href="~/assets/js/font-awesome.min.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap-toggle.min.css" rel="stylesheet" />
+<script src="~/assets/js/bootstrap-toggle.min.js"></script>
+ 
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<link href="~/assets/js/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />*@
+<script src="~/assets/js/bootstrap.min.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+
+<script src="~/assets/js/jquery.validate.min.js"></script>
+
+<link href="~/assets/js/font-awesome.min.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap-toggle.min.css" rel="stylesheet" />
+<script src="~/assets/js/bootstrap-toggle.min.js"></script>
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row">
+                <div class="col-md-12 order-2 order-xxl-1 hight70">
+                    <!--begin::Advance Table Widget 2-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <!--begin::Header-->
+                        <div class="card-header border-0 pt-5">
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="txtcapitalize card-label font-weight-bolder text-dark">UserDetail</span>
+                                @*<span class="text-muted mt-3 font-weight-bold font-size-sm">User Detail</span>*@
+                            </h3>
+                            @*<div class="card-toolbar">
+                                    <p style="display:none; margin-right: 10px;" class="readparagrapgh">Content type is in readonly mode</p>
+                                    <a href="#" onclick="GotoKantentPage(0)" id="AddKantentPage" data-toggle="modal" class="btn btn-primary font-weight-bolder font-size-sm">Add User</a>
+                                    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="file" name="postedFile" />
+                                        <input type="submit" value="Import" />
+                                    }
+                                </div>*@
+                            <div class="row">
+                                <div style="padding-top:10px; padding-right:10px; float: right;">
+                                    @* <input type="submit" value="Add User" class="btn btn-default" style="width:100px;" id="btnSearch" name="btnSearch" /><a href="../Home/Registration" id="signup"></a>*@
+                                </div>
+                                <div style="padding-top:10px; padding-right:10px; float: right;">
+                                    <a href="~/SampleFile.csv" download>Download</a>
+                                    @*<input type="submit" value="Download" class="btn btn-default" style="width:100px;" id="btnSearch" name="btnSearch" />*@
+                                </div>
+                                <div style="padding-top:10px; padding-right:10px; float: left;   display:inline-block;">
+
+                                    @using (Html.BeginForm("About", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <div><input type="file" name="postedFile" /></div>
+                                        <div class="row" style="margin: 10px;">
+                                            <div><input type="submit" value="Import" /></div>
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-3 pb-0">
+                            <!--begin::Table-->
+                            <div class="table-responsive cntnttblwrap sb-container">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">FirstName</th>
+                                            <th scope="col">LastName</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">PhoneNo</th>
+                                            <th scope="col">Address</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.UserDetails)
+                                        {
+                                            var status = "";
+                                        <tr>
+                                            <th scope="col">@item.FirstName</th>
+                                            <th scope="col">@item.LastName</th>
+                                            <th scope="col">@item.Email</th>
+                                            <th scope="col">@item.PhoneNo</th>
+                                            <th scope="col">@item.Address</th>
+                                            <th scope="col">@item.Role</th>
+
+                                            @if (item.Status == "Y")
+                                            {
+                                                status= "Active";
+                                            }
+                                            else
+                                            {
+                                        status = "InActive";
+                                            }
+                                            <th scope="col">@status</th>
+                                            @if (Role == "Admin" || Role == "Supervisor")
+                                            {
+                                                <td class="fixedtdright text-center">
+                                                    <a href="#" data-toggle="modal" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-1 edtreadbtn" onclick=EditStatus("@item.UserId")>
+                                                        <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                            <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Write.svg-->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953)" />
+                                                                    <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                    </a>
+
+                                                </td>
+                                            }
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end::Table-->
+                        </div>
+                        <!--end::Body-->
+
+                    </div>
+                    <!--end::Advance Table Widget 2-->
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--end::Dashboard-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+<script>
+    function EditStatus(id) {
+        window.location.href = '../Home/Registration?UId=' + id;
+    }
+</script>

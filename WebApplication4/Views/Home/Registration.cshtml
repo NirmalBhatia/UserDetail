@@ -1,0 +1,402 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+    Layout = null;
+    string Role = "";
+    if (TempData["Role"] != null)
+    {
+        Role = TempData.Peek("Role").ToString();
+        TempData["Role"] = Role;
+    }
+}
+
+@model WebApplication4.Models.Detaillist
+
+<link href="~/assets/js/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="~/assets/js/bootstrap.min.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+
+<script src="~/assets/js/jquery.validate.min.js"></script>
+
+<link href="~/assets/js/font-awesome.min.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap-toggle.min.css" rel="stylesheet" />
+<script src="~/assets/js/bootstrap-toggle.min.js"></script>
+<body>
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        .toggle.ios, .toggle-on.ios, .toggle-off.ios {
+            border-radius: 20px;
+        }
+
+            .toggle.ios .toggle-handle {
+                border-radius: 20px;
+            }
+
+        .toggle-on.btn {
+            margin-top: 3px;
+        }
+
+        .toggle-off.btn {
+            margin-top: 3px;
+            padding-left: 10px;
+        }
+
+        body {
+            padding-top: 4.2rem;
+            padding-bottom: 4.2rem;
+            background: rgba(0, 0, 0, 0.76);
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Kaushan Script', cursive;
+        }
+
+        .myform {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            padding: 1rem;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0,0,0,.2);
+            border-radius: 1.1rem;
+            outline: 0;
+            max-width: 500px;
+        }
+
+        .tx-tfm {
+            text-transform: uppercase;
+        }
+
+        .mybtn {
+            border-radius: 50px;
+        }
+
+        .login-or {
+            position: relative;
+            color: #aaa;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .span-or {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: -2px;
+            margin-left: -25px;
+            background-color: #fff;
+            width: 50px;
+            text-align: center;
+        }
+
+        .hr-or {
+            height: 1px;
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+
+        form .error {
+            color: #ff0000;
+        }
+
+        #second {
+            display: none;
+        }
+
+        .mandatory {
+            border-right: 3px solid red !important;
+        }
+
+        .error {
+            border-color: red !important;
+        }
+    </style>
+    <div class="container">
+       
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div>
+                    <div class="myform form ">
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1>Registration</h1>
+                            </div>
+                        </div>
+                        @if (Model.UserDetails != null)
+                        {
+                            var adminrole = "readonly";
+                            if (Role == "Admin")
+                            {
+                                adminrole = "";
+                            }
+                            <div name="registration">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" name="firstname" readonly class="form-control mandatory" id="firstname" placeholder="Enter Firstname" value="@Model.UserDetails[0].FirstName">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" name="lastname" readonly class="form-control mandatory" id="lastname" placeholder="Enter Lastname" value="@Model.UserDetails[0].LastName">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" name="email" @adminrole class="form-control mandatory" id="email1" placeholder="Enter email" value="@Model.UserDetails[0].Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone No</label>
+                                    <input type="text" name="phone" @adminrole onkeypress="return isNumberKey(event)" class="form-control mandatory" id="phone" placeholder="Enter Phone No" value="@Model.UserDetails[0].PhoneNo">
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" name="Address" @adminrole class="form-control" id="Address" placeholder="Enter Address" value="@Model.UserDetails[0].Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <input type="text" name="Address" readonly class="form-control" id="Role" placeholder="Enter Address" value="@Model.UserDetails[0].Role">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    @if (@Model.UserDetails[0].Status == "Y")
+                                    {
+                                        <input type="checkbox" id="status" checked data-toggle="toggle" data-on="Active" data-off="InActive" data-style="ios" data-onstyle="success" data-offstyle="danger">
+
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="status" data-toggle="toggle" data-on="Active" data-off="InActive" data-style="ios" data-onstyle="success" data-offstyle="danger">
+
+                                    }
+
+                                </div>
+                                
+                                <div class="col-md-12 text-center mb-3">
+                                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" onclick=Update("@Model.UserDetails[0].UserId")>Update</button>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div class="form-group">
+                                        <p class="text-center"><a href="../Home/Index" id="signin">Already have an account?</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div name="registration">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" name="firstname" class="form-control mandatory" id="firstname" placeholder="Enter Firstname">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" name="lastname" class="form-control mandatory" id="lastname" placeholder="Enter Lastname">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" name="email" class="form-control mandatory" id="email1" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone No</label>
+                                    <input type="text" name="phone" onkeypress="return isNumberKey(event)" class="form-control mandatory" id="phone" placeholder="Enter Phone No">
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" name="Address" class="form-control" id="Address" placeholder="Enter Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select id="Roles">
+                                        <option value="Admin">Admin</option>
+                                        <option value="Supervisor">Supervisor</option>
+                                        <option value="Agent">Agent</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="checkbox" id="status" checked data-toggle="toggle" data-on="Active" data-off="InActive" data-style="ios" data-onstyle="success" data-offstyle="danger">
+
+                                </div>
+                                 
+                                <div class="col-md-12 text-center mb-3">
+                                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" onclick="return sendmail()">Save</button>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div class="form-group">
+                                        <p class="text-center"><a href="../Home/Index" id="signin">Already have an account?</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    function fnValidateEmail(ctrl, Obj) {
+        //var regExp = /^(([^<>()[\]\\.,;:\s\"]+(\.[^<>()[\]\\.,;:\s\"]+)*)|(\".+\"))((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var regExp = /^[A-Z0-9._%+-]+@@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+
+        if (Obj != undefined) {
+            var txtEmail = Obj;
+            if (txtEmail.match(regExp)) {
+                return true;
+            }
+            else {
+                $(ctrl).addClass("error");
+                $(ctrl).attr("title", "Please enter valid Email");
+                $(ctrl).attr("data-original-title", "Please enter valid Email");
+                //$(ctrl).tooltip('show');
+
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    function sendmail(e) {
+        var validatemsg = requiredFields($('#firstname'), "First Name cannot left blank")
+            & requiredFields($('#lastname'), "Last Name cannot left blank")
+            & requiredFields($('#phone'), "Phone No cannot left blank")
+
+        var pan = fnValidateEmail($('#email1'), $('#email1').val())
+        if (!pan) {
+            $('#email1').addClass("error");
+            //$('#email1').tooltip('show');
+        }
+        else {
+            //$('#email1').tooltip('hide');
+            $('#email1').removeClass('error').removeAttr('data-toggle').removeAttr('data-original-title').removeAttr('title').css("border", "1px solid #ced4da");
+        }
+        if (!validatemsg || !pan) {
+            return false;
+        }
+
+        var select = document.getElementById('Roles');
+        var value = select.options[select.selectedIndex].value;
+
+        var password = GenerateRandonNumber();
+        var data = {};
+
+        data.FName = $('#firstname').val();
+        data.LName = $('#lastname').val();
+        data.phone = parseInt($('#phone').val());
+        data.email = $('#email1').val();
+        data.address = $('#Address').val();
+        data.password = password;
+        data.Role = value;
+        data.status = $('#status').is(":checked");
+
+        $.ajax({
+            type: 'POST',
+            url: "../Home/SaveDetail",
+            dataType: 'json',
+            data: { userDetail: data },
+            success: function (data) {
+                var $tb = '<p>Hi "' + $('#firstname').val() + '",</p><p> Please find the below credentials for log in.</p ><p>UserName:-"' + $('#email1').val() + '" Password:' + password + '</p><p>Thank You</p>';
+
+                $.ajax({
+                    type: 'POST',
+                    url: "../Home/SendEmail",
+                    dataType: 'json',
+                    data: { bhtml: $tb, strSub: "Request", toEmail: $('#email1').val() },
+                    success: function (data) {
+                        alert('Please Check Your Mail for Login');
+                        window.location.reload();
+                    },
+                    error: function (ex) {
+                    }
+                });
+            },
+            error: function (ex) {
+            }
+        });
+
+
+    }
+
+    function GenerateRandonNumber() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return "Test" + s4() + s4();
+    }
+
+    function Update(id) {
+        var validatemsg = requiredFields($('#firstname'), "First Name cannot left blank")
+            & requiredFields($('#lastname'), "Last Name cannot left blank")
+            & requiredFields($('#phone'), "Phone No cannot left blank")
+
+        var pan = fnValidateEmail($('#email1'), $('#email1').val())
+        if (!pan) {
+            $('#email1').addClass("error");
+            //$('#email1').tooltip('show');
+        }
+        else {
+            //$('#email1').tooltip('hide');
+            $('#email1').removeClass('error').removeAttr('data-toggle').removeAttr('data-original-title').removeAttr('title').css("border", "1px solid #ced4da");
+        }
+        if (!validatemsg || !pan) {
+            return false;
+        }
+
+       
+        var data = {};
+
+        data.FName = $('#firstname').val();
+        data.LName = $('#lastname').val();
+        data.phone = parseInt($('#phone').val());
+        data.email = $('#email1').val();
+        data.address = $('#Address').val();
+        data.status = $('#status').is(":checked");
+
+        $.ajax({
+            type: 'POST',
+            url: "../Home/UpdateDetail",
+            dataType: 'json',
+            data: { userDetail: data,Userid:id },
+            success: function (data) {
+                window.location.href = '../Home/About';
+            },
+            error: function (ex) {
+            }
+        });
+
+    }
+</script>
+<script src="~/assets/js/customValidate.js"></script>
+
